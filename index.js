@@ -5,7 +5,8 @@ const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS]
 });
 
-const ROLE_ID = 'ur role id';
+const verify = '1054474357411426505';
+const unadd = '1145402487684223116';
 
 client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -53,10 +54,13 @@ client.on('interactionCreate', async interaction => {
       const verification = interaction.fields.getTextInputValue('verification');
 
       if (verification.toLowerCase() === 'heehaw') {
-        const role = interaction.guild.roles.cache.get(ROLE_ID);
-        if (role) {
-          const member = interaction.guild.members.cache.get(interaction.user.id);
-          await member.roles.add(role);
+        const verificationRole = interaction.guild.roles.cache.get(verify);
+        const roleToRemove = interaction.guild.roles.cache.get(unadd);
+        const member = interaction.guild.members.cache.get(interaction.user.id);
+
+        if (verificationRole && roleToRemove) {
+          await member.roles.add(verificationRole);
+          await member.roles.remove(roleToRemove);
           await interaction.reply({ content: `You have been verified and given the role!`, ephemeral: true });
         } else {
           await interaction.reply({ content: `Something went wrong.`, ephemeral: true });
