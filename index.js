@@ -7,17 +7,20 @@ const client = new Client({
 
 const verify = '1054474357411426505';
 const unadd = '1145402487684223116';
+const only = '1145397830639427614';
 
 client.once('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('messageCreate', async message => {
+  if (message.channel.id !== only) return;
+  
   if (message.content === '!verify') {
     const embed = new MessageEmbed()
       .setColor('#0099ff')
       .setTitle('Verification')
-      .setDescription('Make sure you read the rules, there\'s a hidden word in rules that you need to input for you to get verified.\n\nPlease click the button below to verify.');
+      .setDescription('Make sure you read the rules, there\'s a hidden word in rules that you need to input for you to get verified.\n\nHint: Main Rules in <id:home>\n\nPlease click the button below to verify.');
 
     const row = new MessageActionRow().addComponents(
       new MessageButton()
